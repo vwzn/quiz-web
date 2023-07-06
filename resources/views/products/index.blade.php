@@ -20,10 +20,24 @@
                             <td>{{ $product->status }}</td>
                             <td>{{ $product->stok }}</td>
                             <td>{{ $product->harga }}</td>
+                            <td>
+                                <form action="{{ route('products.keluar', $product->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-danger">Beli</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form action="{{ route('transaksi.index', $product->id) }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-danger">    
+                                        <a href="{{ url('/transaksi') }}">add to transaksi</a>    
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
-                <a href="{{ url('/products/tersedia') }}">product tersedia</a>    
             </table>
+            <a href="{{ url('/products/tersedia') }}">product tersedia</a>    
         </div>
     @endsection
