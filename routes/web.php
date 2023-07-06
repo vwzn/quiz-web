@@ -12,9 +12,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/products/tersedia', [ProductController::class, 'tersedia']);
+Route::get('/products/tersedia', [ProductController::class, 'tersedia'])->name('products.tersedia');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
+Route::get('/products/tersedia', [ProductController::class, 'tersedia'])->name('products.tersedia');
 
 Route::get('/', function () {
     return view('welcome');

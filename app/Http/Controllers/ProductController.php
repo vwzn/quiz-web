@@ -8,11 +8,15 @@ class ProductController extends Controller
     public function tersedia()
     {
         $products = Product::where('status', 'Tersedia')->get();
-
-        return response()->json($products);
+        $data = [
+            'products' => $products
+        ];
+        return view ('products.index', $data);
+        
     }
     public function index(){
-        $products = Product::where('status', 'Tersedia')->get();
+        $products = Product::all();   
+
         $data = [
             'products' => $products
         ];
