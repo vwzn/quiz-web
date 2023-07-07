@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Transaction;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -10,8 +11,12 @@ class TransactionController extends Controller
     public function index()
     {
         $transactions = Transaction::all();
-
-        return view('transactions.index', compact('transactions'));
+        $products = Product::all();
+        $data = [
+            'transactions' => $transactions,
+            'products' => $products,
+        ];
+        return view('transactions.index', $data, compact('transactions'));
     }
 
     public function create()
@@ -47,6 +52,39 @@ class TransactionController extends Controller
         // Kurangi stok produk
         $product->stok -= $request->input('qty');
         $product->save();
+
+        return redirect()->route('transactions.index');
+    }
+    public function edit(Transaction $transaction)
+    {
+        $transactions = Transaction::all();
+        $products = Product::all();
+        $data = [
+            'transactions' => $transactions,
+            'products' => $products,
+        ];
+        return view('transactions.edit', $data, compact('transaction'));
+    }
+    public function update(Request $request, Transaction $transaction)
+    {
+        $product = $transaction->product;
+        $qty = $request->input('qty');
+    
+        // Kurangi stok produk sesuai perbedaan qty sebelumnya dan setelah diubah
+        $product->stok += $transaction->qty - $qty;
+        $product->save();
+    
+        $transaction->qty = $qty;
+        $transaction->total_harga = $qty * $product->harga;
+        $transaction->save();
+    
+        return redirect()->route('transactions.index');
+    }
+    
+
+    public function destroy(Transaction $transaction)
+    {
+        $transaction->delete();
 
         return redirect()->route('transactions.index');
     }

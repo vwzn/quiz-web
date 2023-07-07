@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('status');
             $table->integer('stok');
-            $table->float('harga');
+            $table->integer('harga');
             $table->timestamps();
         });
     }

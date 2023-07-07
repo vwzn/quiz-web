@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nomortransaksi');
             $table->foreignId('product_id')->constrained();
             $table->integer('qty');
-            $table->float('total_harga');
+            $table->integer('total_harga');
             $table->timestamps();
         });
     }
